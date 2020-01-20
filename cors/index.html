@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CORS</title>
+</head>
+<body>
+  
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  <script>
+    $(function() {
+      $.get('http://server1:3000/series?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMjYwMWJjMjM2NjI0MmMyMDUwN2ZiYSIsInVzZXJuYW1lIjoicmFmYWVsIiwicm9sZXMiOlsicmVzdHJpdG8iLCJhZG1pbiJdLCJpYXQiOjE1Nzk1NDk5NzR9.fA4AvWxEYqr3tmVLjtjmHHubGEddm2XBCFiyelYg0cE', (data) => {
+        console.log(data)
+      })
+    })
+  </script>
+</body>
+</html>
