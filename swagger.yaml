@@ -1,0 +1,207 @@
+swagger: "2.0"
+info:
+  description: "This is a sample document that references Series API"
+  version: "1.0.0"
+  title: "Minhas Séries REST API"
+  contact:
+    email: "rafaelsanfaria@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:3000"
+basePath: "/"
+tags:
+- name: "series"
+  description: "Series http requests"
+- name: "users"
+  description: "Users http requests"
+- name: "auth"
+  description: "Authentication http requests"
+schemes:
+- "http"
+- "https"
+paths:
+  /series:
+    post:
+      tags:
+      - "series"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        405:
+          description: "Invalid input"
+        200:
+          description: "Created"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Series we would like to create."
+        required: true
+        schema:
+          $ref: "#/definitions/Serie"
+      summary: "Add new series to my series list"
+      security:
+      - api_key:
+        - "restrito"
+    get:
+      tags:
+      - "series"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Serie"
+      security:
+      - api_key:
+        - "restrito"
+      summary: "Get all series from my series list"
+  /series/{seriesId}:
+    get:
+      tags:
+      - "series"
+      responses:
+        200:
+          description: "sucessful operation"
+          schema:
+            $ref: "#/definitions/Serie"
+      parameters:
+      - name: "seriesId"
+        in: "path"
+        description: "ID of series to return"
+        required: true
+        type: "string"
+      security:
+      - api_key:
+        - "restrito"
+      summary: "Get series by ID"
+    put:
+      tags:
+        - "series"
+      responses:
+        405:
+          description: "Invalid input"
+        200:
+          description: "sucessful operation"
+      parameters:
+      - name: "seriesId"
+        in: "path"
+        description: "ID of series to update"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Series we would like to update."
+        required: true
+        schema:
+          $ref: "#/definitions/Serie"        
+      security:
+      - api_key:
+        - "restrito"
+      summary: "Update series by ID"
+    delete:
+      tags:
+        - "series"
+      responses:
+        405:
+          description: "Invalid input"
+        200:
+          description: "sucessful operation"
+      parameters:
+      - name: "seriesId"
+        in: "path"
+        description: "ID of series to return"
+        required: true
+        type: "string"
+      security:
+      - api_key:
+        - "restrito"
+      summary: "Delete series by ID"
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "Get list of users"
+      description: "This can only be done by the logged in admin."
+      operationId: "listUsers"
+      produces:
+      - "application/json"
+      responses:
+        default:
+          description: "successful operation"
+      security:
+      - api_key:
+        - "admin"      
+  /auth:
+    post:
+      tags:
+      - "auth"
+      summary: "Get json web token"
+      description: "Authenticate user with username and password"
+      operationId: "authUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Authenticate user object"
+        required: true
+        schema:
+          $ref: "#/definitions/Auth"
+      responses:
+        200:
+          description: "successful operation"          
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "x-access-token"
+    in: "header"
+    description: "api key"
+    scopes: 
+      restrito: restrict access
+      admin: admin
+definitions:
+  User:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      username:
+        type: "string"
+      password:
+        type: "string"
+      roles:
+        type: "array"
+        items:
+          type: "string"
+    xml:
+      name: "User"
+  Auth:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"
+    xml:
+      name: "Auth"
+  Serie:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+      status:
+        type: "string"
+      comments:
+        type: "array"
+        items:
+          type: "string"
+    xml:
+      name: "Serie"

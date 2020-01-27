@@ -14,7 +14,6 @@ router.use(async (req, res, next) => {
         if (err) {
           throw new Error(err)
         }
-        console.log(payload)
         next()
       })
     } catch (error) {
